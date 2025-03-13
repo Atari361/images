@@ -1,5 +1,5 @@
 ARG VERSION
-FROM golang:1.22-bullseye as go
+FROM golang:1.22-bullseye AS go
 
 COPY devtools /devtools
 
@@ -11,7 +11,7 @@ RUN \
     GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" && \
     upx /devtools/devtools
 
-FROM selenoid/dev_chrome:$VERSION
+FROM localhost:5001/selenoid/dev_chrome:$VERSION
 
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 COPY --from=go /devtools/devtools /usr/bin/
